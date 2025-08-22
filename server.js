@@ -9,7 +9,6 @@ const PORT = 3000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  
   const htmlPage = `
     <!DOCTYPE html>
     <html lang="pt-br">
@@ -146,92 +145,81 @@ app.get("/", (req, res) => {
     </body>
     </html>
   `;
-  
-  res.send(htmlPage);
 
+  res.send(htmlPage);
   
-});
+    })
+  
 
 
 app.get("/personagens", (req, res) => {
   res.json(personagens);
 });
 
-app.listen(PORT, () => {
-  console.log(
-    `A API do mundo do senhor dos aneis está pelos horizontes https://localhost:${PORT}`
-  );
-});
 
-app.get("/personagens/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+app.get("/personagens/id/:id", (req, res) => {
+    const id = parseInt(req.params.id);
 
-  const personagens = personagens.find((p) => p.id === id);
-
+    const personagens = personagens.find((p) => p.id === id);
+    
   if (personagens) {
     res.json({
       success: true,
       message: `personagem ${personagens.nome} encontrado! ⚡`,
       data: personagens,
     });
-  } else {
+} else {
     res.status(404).json({
       success: false,
       error: "Não existe esse personagem! 😢",
       message: `Nenhum personagem com ID ${id} foi encontrado`,
       codigo: "WINZARD_NOT_FOUND",
     });
-  }
+}
 });
 
 app.get("/personagens/nome/:nome", (req, res) => {
-  let nome = req.params.nome;
-  const personagensNome = personagens.find((p) =>
-    p.nome.toLowerCase().includes(nome)
+    let nome = req.params.nome;
+    const personagensNome = personagens.find((p) =>
+        p.nome.toLowerCase().includes(nome)
   );
-
+  
   if (personagensNome) {
-    res.status(200).json(personagensNome);
-  } else {
-    mensagem: "Esse personagem não existe 😢";
-  }
-});
-
-app.get("/personagens", (req, res) => {
-  res.json({
-    success: true,
-    message: "Todos os personagens do mundo do senhor dos aneis! 🏰",
-    data: personagens,
-    total: personagens.length,
-    codigo: "WINZARD_NOT_FOUND",
-  });
+      res.status(200).json(personagensNome);
+    } else {
+        mensagem: "Esse personagem não existe 😢";
+    }
 });
 
 app.get("/personagens/raca/:raca", (req, res) => {
-  let raca = req.params.raca;
-  const personagensRaca = personagens.filter((p) =>
-    p.raca.toLowerCase().includes(raca)
-  );
+    let raca = req.params.raca;
+    const personagensRaca = personagens.filter((p) =>
+        p.raca.toLowerCase().includes(raca)
+);
 
-  if (personagensRaca.length > 0) {
+if (personagensRaca.length > 0) {
     res.status(200).json(personagensRaca);
   } else {
-    res.status(404).json({
+      res.status(404).json({
       mensagem: "Nenhum personagem se encontra nessa raça! 😢",
       codigo: "WINZARD_NOT_FOUND",
     });
-  }
+}
 });
 
 app.get("/personagens/vivos/sim", (req, res) => {
-  
-  const personagensVivos = personagens.filter(p => p.vivo === true);
+    const personagensVivos = personagens.filter((p) => p.vivo === true);
 
-  
   res.status(200).json({
     success: true,
     message: "Lista de personagens vivos da Terra-média! ✨",
     total: personagensVivos.length,
     data: personagensVivos,
-  });
+});
+});
+
+app.listen(PORT, () => {
+  console.log(
+    `A API do mundo do senhor dos aneis está pelos horizontes http://localhost:${PORT}`
+  );
 });
