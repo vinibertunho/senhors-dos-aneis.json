@@ -1,7 +1,7 @@
 let personagens = [
   {
     id: 1,
-    nome: "Frodo Bolseiro",
+    nome: "Frodo Bolseiroo",
     titulo: "Portador do Anel",
     raca: "Hobbit",
     afiliacao: "Sociedade do Anel",
